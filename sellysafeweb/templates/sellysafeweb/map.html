@@ -1,0 +1,33 @@
+{% extends 'sellysafeweb/base.html' %}
+{% block content %}
+
+    <div id='map'></div>
+
+    <script>
+
+        var bounds = [
+            [-1.943917, 52.432404], // Southwest coordinates
+            [-1.920772, 52.452038] // Northeast coordinates
+        ];
+
+        mapboxgl.accessToken = '{{ map_box_key }}';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v10',
+            zoom: 15,
+            maxZoom: 18,
+            minZoom: 14,
+            maxPitch: 0,
+            logoPosition: 'bottom-right',
+            center: [-1.930965, 52.442965],
+            maxBounds: bounds,
+        });
+
+        // disable map rotation using right click + drag
+        map.dragRotate.disable();
+
+        // disable map rotation using touch rotation gesture
+        map.touchZoomRotate.disableRotation();
+    </script>
+
+{% endblock %}
