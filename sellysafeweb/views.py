@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from SellySafe import settings
 from sellysafeweb.forms import ReportForm
@@ -11,12 +11,12 @@ def map(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return render(request, 'sellysafeweb/confirmation.html')
+            return redirect('sellysafeweb:confirmation')
 
     reports = Report.objects.all()
     return render(request, 'sellysafeweb/map.html', {
         'reports': reports,
-        'form': ReportForm(),
+        'form': form,
         'map_box_key': settings.MAPBOX_KEY,
         'city_center': settings.CITY_CENTER,
         'bounds': settings.BOUNDS
@@ -25,3 +25,7 @@ def map(request):
 
 def about(request):
     return render(request, 'sellysafeweb/about.html')
+
+
+def confirmation(request):
+    return render(request, 'sellysafeweb/confirmation.html')

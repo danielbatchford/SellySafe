@@ -1,4 +1,6 @@
 {% extends 'sellysafeweb/base.html' %}
+
+
 {% block content %}
 
     <script>
@@ -11,18 +13,37 @@
             });
         });
 
+        $(document).ready(function () {
+            $('.modal').modal(
+                {
+                    inDuration: 500,
+                    outDuration: 500,
+                }
+            );
+        });
+
+
     </script>
+
+
+
+
+    <script>
+        $(function () {
+            $("#datetimepicker").datetimepicker();
+        });
+    </script>
+
 
     <!--MapBox Reference-->
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet'/>
-
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
 
     <div id='map'>
 
         <script>
 
-            var themeURL = 'mapbox://styles/mapbox/dark-v10';
+            var themeURL = 'mapbox://styles/mapbox/light-v10';
 
             mapboxgl.accessToken = '{{ map_box_key }}';
             var map = new mapboxgl.Map({
@@ -45,8 +66,7 @@
             map.touchZoomRotate.disableRotation();
 
 
-
-            function toggleTheme(){
+            function toggleTheme() {
 
                 if (themeURL === 'mapbox://styles/mapbox/dark-v10') themeURL = 'mapbox://styles/mapbox/light-v10';
                 else if (themeURL === 'mapbox://styles/mapbox/light-v10') themeURL = 'mapbox://styles/mapbox/dark-v10';
@@ -64,7 +84,7 @@
                     closeOnClick: true,
                 })
 
-                popup.setHTML("<p>{{ report.date }}</p><p>{{ report.type }}</p><p>{{report.contents}}</p>");
+                popup.setHTML("<p>{{ report.date }}</p><p>{{report.contents}}</p>");
 
                 // create marker with above popup
                 var marker = new mapboxgl.Marker()
@@ -81,13 +101,36 @@
             <i class="large material-icons">reorder</i>
         </a>
         <ul>
-            <li><a class="btn-floating white"><i class="material-icons black-text">add</i></a></li>
-            <li><a class="btn-floating white" href = {% url 'sellysafeweb:about' %}><i class="material-icons black-text">help</i></a></li>
-            <li><a class="btn-floating white"><i class="material-icons black-text" onclick = toggleTheme()>visibility</i></a></li>
+            <li><a class="btn-floating white modal-trigger" href="#addEventModal"><i class="material-icons black-text">add</i></a>
+            </li>
+            <li><a class="btn-floating white" href= {% url 'sellysafeweb:about' %}><i class="material-icons black-text">help</i></a>
+            </li>
+            <li><a class="btn-floating white"><i class="material-icons black-text" onclick=toggleTheme()>visibility</i></a>
+            </li>
 
         </ul>
     </div>
 
+    <!-- Modal -->
+    <div id="addEventModal" class="modal class modal bottom-sheet">
+        <form action={% url 'sellysafeweb:map' %} method="POST" class="from-group">
+            <div class="modal-content">
+                <h4>Add A Report</h4>
 
+                {% csrf_token %}
+                {{ form.as_p }}
+
+            </div>
+            <div class="modal-footer">
+                <button
+                        type="submit"
+                        class="btn btn-success teal darken-3 waves-effect"
+                >
+                    Add This Report
+
+                </button>
+            </div>
+        </form>
+    </div>
 
 {% endblock %}

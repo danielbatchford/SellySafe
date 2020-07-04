@@ -1,0 +1,4 @@
+- Clear form on modal close
+- Make form input on touch of map
+- Form date pickers / time pickers
+- Form type pickers
