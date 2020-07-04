@@ -19,3 +19,8 @@ class ReportForm(forms.ModelForm):
         widgets = {'datetime': DateTimeInput(),
                    'lat': forms.HiddenInput(),
                    'long': forms.HiddenInput()}
+
+        labels = {
+            'contents': 'Please describe what happened',
+            'datetime': 'When did this happen?'
+        }
