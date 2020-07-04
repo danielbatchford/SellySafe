@@ -19,4 +19,9 @@ def map(request):
         'form': ReportForm(),
         'map_box_key': settings.MAPBOX_KEY,
         'city_center': settings.CITY_CENTER,
-        'bounds': settings.BOUNDS})
+        'bounds': settings.BOUNDS
+    })
+
+
+def about(request):
+    return render(request, 'sellysafeweb/about.html')

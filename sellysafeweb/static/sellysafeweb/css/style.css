@@ -16,3 +16,13 @@ body {
 .mapboxgl-popup {
     max-width: 400px;
 }
+
+.leaflet-bottom, .leaflet-top {
+    z-index: 0 !important; // This is 1000 by default
+    position: absolute;
+    pointer-events: none;
+}
+
+i.icon-black {
+    color: black;
+}

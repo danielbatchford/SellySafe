@@ -9,4 +9,4 @@ class Report(models.Model):
     contents = models.TextField(max_length=1000, default="")
     lat = models.FloatField()
     long = models.FloatField()
-    date = models.DateField(default="")
+    date = models.DateTimeField(default="")

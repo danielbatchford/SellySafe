@@ -1,57 +1,93 @@
 {% extends 'sellysafeweb/base.html' %}
 {% block content %}
 
-    <div id='map'>
-
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, {
+                direction: 'up',
+                hoverEnabled: false,
 
-        mapboxgl.accessToken = '{{ map_box_key }}';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/dark-v10',
-            zoom: 15,
-            maxZoom: 18,
-            minZoom: 14,
-            maxPitch: 0,
-            logoPosition: 'bottom-right',
-            center: {{city_center}},
-
-            maxBounds: {{ bounds|safe }},
-
+            });
         });
-        // disable map rotation using right click + drag
-        map.dragRotate.disable();
-
-        // disable map rotation using touch rotation gesture
-        map.touchZoomRotate.disableRotation();
-
-
-        {% for report in reports %}
-
-            // Create a popup
-            var popup = new mapboxgl.Popup({
-                    offset: 25,
-                    closeButton: false,
-                    closeOnClick: true,
-                    })
-
-            popup.setHTML("<p>{{ report.date }}</p><p>{{ report.type }}</p><p>{{report.contents}}</p>");
-
-            // create marker with above popup
-            var marker = new mapboxgl.Marker()
-                .setPopup(popup)
-                .setLngLat([{{report.long}}, {{ report.lat}}])
-                .addTo(map);
-
-        {% endfor %}
 
     </script>
 
+    <!--MapBox Reference-->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet'/>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+
+    <div id='map'>
+
+        <script>
+
+            var themeURL = 'mapbox://styles/mapbox/dark-v10';
+
+            mapboxgl.accessToken = '{{ map_box_key }}';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: themeURL,
+                zoom: 15,
+                maxZoom: 18,
+                minZoom: 14,
+                maxPitch: 0,
+                logoPosition: 'bottom-left',
+                center: {{city_center}},
+
+                maxBounds: {{ bounds|safe }},
+
+            });
+            // disable map rotation using right click + drag
+            map.dragRotate.disable();
+
+            // disable map rotation using touch rotation gesture
+            map.touchZoomRotate.disableRotation();
+
+
+
+            function toggleTheme(){
+
+                if (themeURL === 'mapbox://styles/mapbox/dark-v10') themeURL = 'mapbox://styles/mapbox/light-v10';
+                else if (themeURL === 'mapbox://styles/mapbox/light-v10') themeURL = 'mapbox://styles/mapbox/dark-v10';
+
+                map.setStyle(themeURL);
+            }
+
+
+            {% for report in reports %}
+
+                // Create a popup
+                var popup = new mapboxgl.Popup({
+                    offset: 25,
+                    closeButton: false,
+                    closeOnClick: true,
+                })
+
+                popup.setHTML("<p>{{ report.date }}</p><p>{{ report.type }}</p><p>{{report.contents}}</p>");
+
+                // create marker with above popup
+                var marker = new mapboxgl.Marker()
+                    .setPopup(popup)
+                    .setLngLat([{{report.long}}, {{ report.lat}}])
+                    .addTo(map);
+
+            {% endfor %}
+        </script>
     </div>
-    <div class="container">
-        <div class="card center">
-            <div class="card-content">Hello</div>
-        </div>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">reorder</i>
+        </a>
+        <ul>
+            <li><a class="btn-floating white"><i class="material-icons black-text">add</i></a></li>
+            <li><a class="btn-floating white" href = {% url 'sellysafeweb:about' %}><i class="material-icons black-text">help</i></a></li>
+            <li><a class="btn-floating white"><i class="material-icons black-text" onclick = toggleTheme()>visibility</i></a></li>
+
+        </ul>
     </div>
+
+
 
 {% endblock %}
