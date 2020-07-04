@@ -1,5 +1,5 @@
 from django import forms
-
+import datetime
 from SellySafe import settings
 from .models import Report
 
@@ -9,6 +9,7 @@ class DateTimeInput(forms.DateInput):
 
     def __init__(self, **kwargs):
         kwargs["format"] = settings.DATETIME_INPUT_FORMATS[0]
+        #kwargs["min"] = datetime.datetime.now().strftime(settings.DATETIME_INPUT_FORMATS[0])
         super().__init__(**kwargs)
 
 

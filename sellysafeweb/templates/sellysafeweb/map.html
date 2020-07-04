@@ -19,6 +19,7 @@
 
                 });
             });
+
             $(document).ready(function () {
 
                 $('.modal').modal(
@@ -29,20 +30,125 @@
                         onCloseStart: () => {
 
                             addMarker.remove();
-                               document.getElementById('addReportHeader').style.display = "block";
-                            map.flyTo({
-
-                                center: {{ city_center }},
-                                zoom: 16,
-                                speed: 1,
-                                curve: 1,
-                                essential: true
-                            });
-
+                            document.getElementById('addReportHeader').style.display = "block";
+                            flyToCenter();
                         },
                     }
                 );
             });
+
+            var themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
+            var addMode = false;
+            var addMarker = new mapboxgl.Marker();
+
+
+            mapboxgl.accessToken = '{{ map_box_key }}';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: themeURL,
+                zoom: 15,
+                maxZoom: 18,
+                minZoom: 14,
+                maxPitch: 0,
+                pitchWithRotate: false,
+                touchPitch: false,
+                logoPosition: 'bottom-left',
+                center: {{city_center}},
+                maxBounds: {{ bounds|safe }},
+
+            });
+            // disable map rotation using right click + drag
+            map.dragRotate.disable();
+
+            // disable map rotation using touch rotation gesture
+            map.touchZoomRotate.disableRotation();
+
+
+            function toggleAddMode() {
+                addMode = !addMode;
+                header = document.getElementById('addReportHeader');
+                button = document.getElementById('addButton');
+                if (addMode) {
+                    header.style.display = "block";
+                    button.innerHTML = "clear";
+                    flyToCenter();
+                } else {
+                    header.style.display = "none";
+                    button.innerHTML = "add";
+
+                }
+            }
+
+            function toggleTheme() {
+
+                if (themeURL === 'mapbox://styles/mapbox/dark-v10?optimize=true') themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
+                else if (themeURL === 'mapbox://styles/mapbox/light-v10?optimize=true') themeURL = 'mapbox://styles/mapbox/dark-v10?optimize=true';
+
+                map.setStyle(themeURL);
+            }
+
+
+            {% for report in reports %}
+
+                // Create a popup
+                var popup = new mapboxgl.Popup({
+                    offset: 25,
+                    closeButton: false,
+                    closeOnClick: true,
+                })
+
+                popup.setHTML("<p>{{ report.datetime }}</p><p>{{report.contents}}</p>");
+
+                // create marker with above popup
+                var marker = new mapboxgl.Marker()
+                    .setPopup(popup)
+                    .setLngLat([{{report.long}}, {{ report.lat}}])
+                    .addTo(map);
+
+            {% endfor %}
+
+
+
+            map.on('click', function (e) {
+                if (!addMode) return;
+                // Get Lat Long cords of click
+                var clickLongLat = e.lngLat.wrap();
+
+                //add a marker at these co-ordinates. Reference addMarker is preserved
+                addMarker.setLngLat([clickLongLat['lng'], clickLongLat['lat']]).addTo(map);
+
+                // Update hidden form values with lat long from function
+                $('#id_lat').val(clickLongLat['lat']);
+                $('#id_long').val(clickLongLat['lng']);
+
+                // Open materialise modal
+                $('#addReportModal').modal('open');
+
+                document.getElementById('addReportHeader').style.display = "none";
+
+                map.flyTo({
+
+                    center: [clickLongLat['lng'], clickLongLat['lat']],
+                    zoom: 18,
+                    speed: 1,
+                    curve: 1,
+                    essential: true
+                });
+            })
+
+            function flyToClick(){
+
+            }
+            function flyToCenter() {
+                map.flyTo({
+
+                    center: {{ city_center }},
+                    zoom: 16,
+                    speed: 1,
+                    curve: 1,
+                    essential: true
+                });
+            }
         </script>
     </div>
 
@@ -52,7 +158,8 @@
             <i class="large material-icons">reorder</i>
         </a>
         <ul>
-            <li><a class="btn-floating white" onclick="toggleAddMode()"><i class="material-icons black-text" id = "addButton">add</i></a>
+            <li><a class="btn-floating white" onclick="toggleAddMode()"><i class="material-icons black-text"
+                                                                           id="addButton">add</i></a>
             <li><a class="btn-floating white" href= {% url 'sellysafeweb:about' %}><i class="material-icons black-text">help</i></a>
             </li>
             <li><a class="btn-floating white"><i class="material-icons black-text" onclick=toggleTheme()>visibility</i></a>
@@ -76,7 +183,7 @@
 
                 <button
                         type="submit"
-                        class="btn-large btn-success waves-effect center deep-orange"
+                        class="btn-flat deep-orange-text"
                 >
                     Add This Report
                     <i class="material-icons right">send</i>
@@ -86,118 +193,15 @@
         </form>
     </div>
 
-    <script>
-
-        var themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
-
-        mapboxgl.accessToken = '{{ map_box_key }}';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: themeURL,
-            zoom: 15,
-            maxZoom: 18,
-            minZoom: 14,
-            maxPitch: 0,
-            pitchWithRotate: false,
-            touchPitch: false,
-            logoPosition: 'bottom-left',
-            center: {{city_center}},
-            maxBounds: {{ bounds|safe }},
-
-        });
-        // disable map rotation using right click + drag
-        map.dragRotate.disable();
-
-        // disable map rotation using touch rotation gesture
-        map.touchZoomRotate.disableRotation();
-
-        var addMode = false;
-
-        function toggleAddMode() {
-            addMode = !addMode;
-            console.log(addMode);
-            if (addMode) {
-                document.getElementById('addReportHeader').style.display = "block";
-                document.getElementById('addButton').innerHTML = "clear";
-                 map.flyTo({
-
-                                center: {{ city_center }},
-                                zoom: 16,
-                                speed: 1,
-                                curve: 1,
-                                essential: true
-                            });
-            } else {
-                document.getElementById('addReportHeader').style.display = "none";
-                document.getElementById('addButton').innerHTML = "add";
-
-            }
-        }
-
-        function toggleTheme() {
-
-            if (themeURL === 'mapbox://styles/mapbox/dark-v10?optimize=true') themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
-            else if (themeURL === 'mapbox://styles/mapbox/light-v10?optimize=true') themeURL = 'mapbox://styles/mapbox/dark-v10?optimize=true';
-
-            map.setStyle(themeURL);
-        }
-
-
-        {% for report in reports %}
-
-            // Create a popup
-            var popup = new mapboxgl.Popup({
-                offset: 25,
-                closeButton: false,
-                closeOnClick: true,
-            })
-
-            popup.setHTML("<p>{{ report.datetime }}</p><p>{{report.contents}}</p>");
-
-            // create marker with above popup
-            var marker = new mapboxgl.Marker()
-                .setPopup(popup)
-                .setLngLat([{{report.long}}, {{ report.lat}}])
-                .addTo(map);
-
-        {% endfor %}
-
-        var addMarker = new mapboxgl.Marker();
-
-        map.on('click', function (e) {
-            if (!addMode) return;
-            // Get Lat Long cords of click
-            var clickLongLat = e.lngLat.wrap();
-
-            //add a marker at these co-ordinates. Reference addMarker is preserved
-            addMarker.setLngLat([clickLongLat['lng'], clickLongLat['lat']]).addTo(map);
-
-            // Update hidden form values with lat long from function
-            $('#id_lat').val(clickLongLat['lat']);
-            $('#id_long').val(clickLongLat['lng']);
-
-            // Open materialise modal
-            $('#addReportModal').modal('open');
-
-               document.getElementById('addReportHeader').style.display = "none";
-
-            map.flyTo({
-
-                center: [clickLongLat['lng'], clickLongLat['lat']],
-                zoom: 18,
-                speed: 1,
-                curve: 1,
-                essential: true
-            });
-        })
-
-    </script>
 
     <div class="container" id="addReportHeader" , style="display: none">
         <div class="card animate__animated animate__slideInDown">
             <div class="card-content center">Select the report location on the map</div>
         </div>
     </div>
+
+
+
 
 
 {% endblock %}

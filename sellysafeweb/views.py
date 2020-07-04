@@ -11,6 +11,7 @@ def map(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
+            return redirect('sellysafeweb:map')
 
     reports = Report.objects.all()
     return render(request, 'sellysafeweb/map.html', {
