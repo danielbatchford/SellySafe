@@ -1,38 +1,11 @@
 {% extends 'sellysafeweb/base.html' %}
-
+{% block title %}Map View{% endblock %}
 
 {% block content %}
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.fixed-action-btn');
-            var instances = M.FloatingActionButton.init(elems, {
-                direction: 'up',
-                hoverEnabled: false,
-
-            });
-        });
-
-        $(document).ready(function () {
-            $('.modal').modal(
-                {
-                    inDuration: 500,
-                    outDuration: 500,
-                }
-            );
-        });
-
-
-    </script>
 
 
 
-
-    <script>
-        $(function () {
-            $("#datetimepicker").datetimepicker();
-        });
-    </script>
 
 
     <!--MapBox Reference-->
@@ -42,67 +15,48 @@
     <div id='map'>
 
         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var elems = document.querySelectorAll('.fixed-action-btn');
+                var instances = M.FloatingActionButton.init(elems, {
+                    direction: 'up',
+                    hoverEnabled: false,
 
-            var themeURL = 'mapbox://styles/mapbox/light-v10';
 
-            mapboxgl.accessToken = '{{ map_box_key }}';
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: themeURL,
-                zoom: 15,
-                maxZoom: 18,
-                minZoom: 14,
-                maxPitch: 0,
-                logoPosition: 'bottom-left',
-                center: {{city_center}},
-
-                maxBounds: {{ bounds|safe }},
-
+                });
             });
-            // disable map rotation using right click + drag
-            map.dragRotate.disable();
+            $(document).ready(function () {
 
-            // disable map rotation using touch rotation gesture
-            map.touchZoomRotate.disableRotation();
+                $('.modal').modal(
+                    {
+                        inDuration: 500,
+                        outDuration: 500,
+                        opacity: 0,
+                        onCloseStart: () => {
+                            console.log("AAa");
+                            addMarker.remove();
+                            map.flyTo({
 
+                                center: {{ city_center }},
+                                zoom: 16,
+                                speed: 1,
+                                curve: 1,
+                                essential: true
+                            });
 
-            function toggleTheme() {
-
-                if (themeURL === 'mapbox://styles/mapbox/dark-v10') themeURL = 'mapbox://styles/mapbox/light-v10';
-                else if (themeURL === 'mapbox://styles/mapbox/light-v10') themeURL = 'mapbox://styles/mapbox/dark-v10';
-
-                map.setStyle(themeURL);
-            }
-
-
-            {% for report in reports %}
-
-                // Create a popup
-                var popup = new mapboxgl.Popup({
-                    offset: 25,
-                    closeButton: false,
-                    closeOnClick: true,
-                })
-
-                popup.setHTML("<p>{{ report.date }}</p><p>{{report.contents}}</p>");
-
-                // create marker with above popup
-                var marker = new mapboxgl.Marker()
-                    .setPopup(popup)
-                    .setLngLat([{{report.long}}, {{ report.lat}}])
-                    .addTo(map);
-
-            {% endfor %}
+                        },
+                    }
+                );
+            });
         </script>
     </div>
+
 
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large red">
             <i class="large material-icons">reorder</i>
         </a>
         <ul>
-            <li><a class="btn-floating white modal-trigger" href="#addEventModal"><i class="material-icons black-text">add</i></a>
-            </li>
+            <li><a class="btn-floating white" onclick="toggleAddMode()"><i class="material-icons black-text">add</i></a>
             <li><a class="btn-floating white" href= {% url 'sellysafeweb:about' %}><i class="material-icons black-text">help</i></a>
             </li>
             <li><a class="btn-floating white"><i class="material-icons black-text" onclick=toggleTheme()>visibility</i></a>
@@ -111,8 +65,9 @@
         </ul>
     </div>
 
+
     <!-- Modal -->
-    <div id="addEventModal" class="modal class modal bottom-sheet">
+    <div id="addReportModal" class="modal class modal bottom-sheet">
         <form action={% url 'sellysafeweb:map' %} method="POST" class="from-group">
             <div class="modal-content">
                 <h4>Add A Report</h4>
@@ -124,7 +79,7 @@
             <div class="modal-footer">
                 <button
                         type="submit"
-                        class="btn btn-success teal darken-3 waves-effect"
+                        class="btn btn-success waves-effect center"
                 >
                     Add This Report
 
@@ -132,5 +87,105 @@
             </div>
         </form>
     </div>
+
+    <script>
+
+        var themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
+
+        mapboxgl.accessToken = '{{ map_box_key }}';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: themeURL,
+            zoom: 15,
+            maxZoom: 18,
+            minZoom: 14,
+            maxPitch: 0,
+            logoPosition: 'bottom-left',
+            center: {{city_center}},
+            maxBounds: {{ bounds|safe }},
+
+        });
+        // disable map rotation using right click + drag
+        map.dragRotate.disable();
+
+        // disable map rotation using touch rotation gesture
+        map.touchZoomRotate.disableRotation();
+
+        var addMode = false;
+
+        function toggleAddMode() {
+            addMode = !addMode;
+            console.log(addMode);
+            if (addMode) {
+                document.getElementById('addReportHeader').style.display = "block";
+            } else {
+                document.getElementById('addReportHeader').style.display = "none";
+
+            }
+        }
+
+        function toggleTheme() {
+
+            if (themeURL === 'mapbox://styles/mapbox/dark-v10?optimize=true') themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
+            else if (themeURL === 'mapbox://styles/mapbox/light-v10?optimize=true') themeURL = 'mapbox://styles/mapbox/dark-v10?optimize=true';
+
+            map.setStyle(themeURL);
+        }
+
+
+        {% for report in reports %}
+
+            // Create a popup
+            var popup = new mapboxgl.Popup({
+                offset: 25,
+                closeButton: false,
+                closeOnClick: true,
+            })
+
+            popup.setHTML("<p>{{ report.date }}</p><p>{{report.contents}}</p>");
+
+            // create marker with above popup
+            var marker = new mapboxgl.Marker()
+                .setPopup(popup)
+                .setLngLat([{{report.long}}, {{ report.lat}}])
+                .addTo(map);
+
+        {% endfor %}
+
+        var addMarker = new mapboxgl.Marker();
+
+        map.on('click', function (e) {
+            if (!addMode) return;
+            // Get Lat Long cords of click
+            var clickLongLat = e.lngLat.wrap();
+
+            //add a marker at these co-ordinates. Reference addMarker is preserved
+            addMarker.setLngLat([clickLongLat['lng'], clickLongLat['lat']]).addTo(map);
+
+            // Update hidden form values with lat long from function
+            $('#id_lat').val(clickLongLat['lat']);
+            $('#id_long').val(clickLongLat['lng']);
+
+            // Open materialise modal
+            $('#addReportModal').modal('open');
+
+            map.flyTo({
+
+                center: [clickLongLat['lng'], clickLongLat['lat']],
+                zoom: 18,
+                speed: 1,
+                curve: 1,
+                essential: true
+            });
+        })
+
+    </script>
+    <br>
+    <div class="container" id="addReportHeader" , style="display: none">
+        <div class="card">
+            <div class="card-content center">Add a Report</div>
+        </div>
+    </div>
+
 
 {% endblock %}

@@ -16,4 +16,6 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = ("contents", "lat", "long", "datetime")
-        widgets = {'datetime': DateTimeInput()}
+        widgets = {'datetime': DateTimeInput(),
+                   'lat': forms.HiddenInput(),
+                   'long': forms.HiddenInput()}
