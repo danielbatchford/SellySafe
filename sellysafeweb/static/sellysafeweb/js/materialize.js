@@ -1528,11 +1528,11 @@ M.throttle = function (func, wait, options) {
         return result;
     };
 };
- /*
-  v2.2.0
-  2017 Julian Garnier
-  Released under the MIT license
-  */
+/*
+ v2.2.0
+ 2017 Julian Garnier
+ Released under the MIT license
+ */
 var $jscomp = {scope: {}};
 $jscomp.defineProperty = "function" == typeof Object.defineProperties ? Object.defineProperty : function (e, r, p) {
     if (p.get || p.set) throw new TypeError("ES3 does not support getters and setters.");
@@ -5203,14 +5203,14 @@ var $jscomp$this = this;
         M.initializeJqueryWrapper(Tooltip, 'tooltip', 'M_Tooltip');
     }
 })(cash, M.anime);
- /*!
-  * Waves v0.6.4
-  * http://fian.my.id/Waves
-  *
-  * Copyright 2014 Alfiana E. Sibuea and other contributors
-  * Released under the MIT license
-  * https://github.com/fians/Waves/blob/master/LICENSE
-  */
+/*!
+ * Waves v0.6.4
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
+ * https://github.com/fians/Waves/blob/master/LICENSE
+ */
 
 ;(function (window) {
     'use strict';

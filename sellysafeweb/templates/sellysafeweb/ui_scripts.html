@@ -1,0 +1,38 @@
+<script> $(document).ready(function () {
+
+    $('.modal').modal(
+        {
+            inDuration: 500,
+            outDuration: 500,
+            opacity: 0,
+            onCloseStart: () => {
+
+                addMarker.remove();
+                document.getElementById('addReportHeader').style.display = "block";
+                flyToCenter();
+            },
+        }
+    );
+});
+
+var addMode = false;
+
+function toggleAddMode() {
+    addMode = !addMode;
+    header = document.getElementById('addReportHeader');
+    button = document.getElementById('addButton');
+    logo = document.getElementById('floating_logo');
+    if (addMode) {
+        header.style.display = "block";
+        button.innerHTML = "clear";
+        logo.style.display = "none";
+        flyToCenter();
+    } else {
+        header.style.display = "none";
+        button.innerHTML = "add";
+        logo.style.display = "block";
+
+    }
+}
+
+</script>

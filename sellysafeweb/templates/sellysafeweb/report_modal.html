@@ -1,0 +1,20 @@
+<div id="addReportModal" class="modal class modal bottom-sheet modal-fixed-footer">
+        {% load material_form %}
+        <form action={% url 'sellysafeweb:map' %} method="POST" class="from-group">
+            <div class="modal-content">
+                <h4>Add A Report</h4>
+                {% csrf_token %}
+                {% form form=form %}{% endform %}
+            </div>
+            <div class="modal-footer">
+                <button
+                        id="submit_button"
+                        type="submit"
+                        class="btn-flat deep-orange-text"
+                >
+                    Add This Report
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>

@@ -1,29 +1,33 @@
-from django.shortcuts import render, redirect
 import datetime as dt
 
-from django.utils.timezone import make_aware
-from django.utils import timezone
+from django.shortcuts import render, redirect
+
 from SellySafe import settings
 from sellysafeweb.forms import ReportForm
 from sellysafeweb.models import Report
 
 
 def map(request):
-
     show_modal = True
 
     form = ReportForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
+            date_choice = form.cleaned_data['datetime']
+            if int(date_choice) > 4:
+                datetime = dt.datetime.now() - dt.timedelta(minutes=int(date_choice))
+            else:
+                datetime = dt.datetime.now() - dt.timedelta(hours=int(date_choice))
+
             report = Report.objects.create(contents=form.cleaned_data['contents'],
                                            lat=form.cleaned_data['lat'],
                                            long=form.cleaned_data['long'],
-                                           datetime=form.cleaned_data['datetime'])
+                                           datetime=datetime)
             report.save()
             return redirect('sellysafeweb:map')
 
-    cutoff_date = dt.date.today() - dt.timedelta(days = settings.SHOW_DURATION)
+    cutoff_date = dt.date.today() - dt.timedelta(days=settings.SHOW_DURATION)
     reports = Report.objects.filter(datetime__gte=cutoff_date)
 
     return render(request, 'sellysafeweb/map.html', {
@@ -38,7 +42,3 @@ def map(request):
 
 def about(request):
     return render(request, 'sellysafeweb/about.html')
-
-
-def confirmation(request):
-    return render(request, 'sellysafeweb/confirmation.html')

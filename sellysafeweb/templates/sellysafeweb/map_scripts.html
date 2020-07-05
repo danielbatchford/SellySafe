@@ -1,0 +1,120 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.fixed-action-btn');
+        var instances = M.FloatingActionButton.init(elems, {
+            direction: 'up',
+            hoverEnabled: false,
+        });
+    });
+
+    var themeURL = localStorage.getItem('themeURL')
+    if (themeURL == null) {
+        themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
+        localStorage.setItem('themeURL', themeURL);
+    }
+
+    var addMarker = new mapboxgl.Marker();
+
+    mapboxgl.accessToken = '{{ map_box_key }}';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: themeURL,
+        zoom: 15,
+        maxZoom: 18,
+        minZoom: 14,
+        maxPitch: 0,
+        pitchWithRotate: false,
+        touchPitch: false,
+        logoPosition: 'bottom-left',
+        center: {{city_center}},
+        maxBounds: {{ bounds|safe }},
+
+    });
+    // disable map rotation using right click + drag
+    map.dragRotate.disable();
+
+    // disable map rotation using touch rotation gesture
+    map.touchZoomRotate.disableRotation();
+
+
+    function toggleTheme() {
+
+        if (themeURL === 'mapbox://styles/mapbox/dark-v10?optimize=true') {
+            themeURL = 'mapbox://styles/mapbox/light-v10?optimize=true';
+        } else themeURL = 'mapbox://styles/mapbox/dark-v10?optimize=true';
+
+        map.setStyle(themeURL);
+        localStorage.setItem('themeURL', themeURL);
+    }
+
+    {% for report in reports %}
+
+        // Create a popup
+        var popup = new mapboxgl.Popup({
+            offset: 25,
+            closeButton: false,
+            closeOnClick: true,
+        })
+
+        popup.setHTML("<p>{{ report.datetime }}</p><p style='word-wrap: break-word;'>{{ report.contents }}</p>");
+
+        // create marker with above popup
+        var marker = new mapboxgl.Marker()
+            .setPopup(popup)
+            .setLngLat([{{report.long}}, {{ report.lat}}])
+            .addTo(map);
+
+    {% endfor %}
+
+    map.on('click', function (e) {
+        if (!addMode) return;
+        // Get Lat Long cords of click
+        var clickLongLat = e.lngLat.wrap();
+
+        //add a marker at these co-ordinates. Reference addMarker is preserved
+        addMarker.setLngLat([clickLongLat['lng'], clickLongLat['lat']]).addTo(map);
+
+        // Update hidden form values with lat long from function
+        $('#id_lat').val(clickLongLat['lat']);
+        $('#id_long').val(clickLongLat['lng']);
+
+        // Open materialise modal
+        $('#addReportModal').modal('open');
+
+        document.getElementById('addReportHeader').style.display = "none";
+
+        map.flyTo({
+
+            center: [clickLongLat['lng'], clickLongLat['lat']],
+            zoom: 18,
+            speed: 1,
+            curve: 1,
+            essential: true
+        });
+    })
+
+    function flyToCenter() {
+        map.flyTo({
+
+            center: {{ city_center }},
+            zoom: 16,
+            speed: 1,
+            curve: 1,
+            essential: true
+        });
+    }
+
+    function buttonState() {
+        $("input").each(function () {
+            $('#submit_button').attr('disabled', 'disabled');
+            if ($(this).val() == "") return false;
+            $('#submit_button').attr('disabled', '');
+        })
+    }
+
+    $(function () {
+        $('#submit_button').attr('disabled', 'disabled');
+        $('input').change(buttonState);
+    })
+
+</script>

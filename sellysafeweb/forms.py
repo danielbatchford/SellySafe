@@ -1,6 +1,4 @@
 from django import forms
-import datetime
-
 from django.core.exceptions import ValidationError
 
 from SellySafe import settings
@@ -15,15 +13,23 @@ class DateTimeInput(forms.DateInput):
         super().__init__(**kwargs)
 
 
-class ReportForm(forms.ModelForm):
+class ReportForm(forms.Form):
+    CHOICES = [(0, 'Just now'),
+               (5, '5 minutes ago'),
+               (15, '15 minutes ago'),
+               (30, '30 minutes ago'),
+               (1, '1 hour ago'),
+               (2, '2 hours ago'),
+               (3, '3 hours ago'),
+               (4, '4 hours ago')]
+    datetime = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label="When did this happen?",
+                                 required=True)
+    lat = forms.FloatField(widget=forms.HiddenInput)
+    long = forms.FloatField(widget=forms.HiddenInput)
+    contents = forms.CharField(widget=forms.TextInput, label="Please describe what happened", required=True)
 
     def clean(self):
         cd = self.cleaned_data
-
-        if cd['datetime'] < datetime.datetime.now() - datetime.timedelta(days = settings.SHOW_DURATION):
-            raise ValidationError("Please add reports in the last {} days".format(settings.SHOW_DURATION))
-        if cd['datetime'] > datetime.datetime.now():
-            raise ValidationError("Report time cannot be in the future.")
 
         bounds = settings.BOUNDS
         bl = bounds[0]
@@ -36,11 +42,3 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = ("contents", "lat", "long", "datetime")
-        widgets = {'datetime': DateTimeInput(),
-                   'lat': forms.HiddenInput(),
-                   'long': forms.HiddenInput()}
-
-        labels = {
-            'contents': 'Please describe what happened',
-            'datetime': 'When did this happen?'
-        }

@@ -1,35 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>SellySafe - {% block title %}{% endblock %}</title>
-        {% load static %}
-        <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!--Import materialize.css-->
-        <link
+<head>
+    <meta charset="UTF-8">
+    <title>SellySafe - {% block title %}{% endblock %}</title>
+    {% load static %}
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--Import materialize.css-->
+    <link
             type="text/css"
             rel="stylesheet"
             href="{% static 'sellysafeweb/css/materialize.css' %}"
             media="screen,projection"
-        >
-        <link type="text/css" rel="stylesheet" href="{% static 'sellysafeweb/css/style.css' %}">
-        <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--JavaScript at end of body for optimized loading-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-        <script type="text/javascript" src="{% static 'sellysafeweb/js/scripts.js' %}"></script>
-        <script type="text/javascript" src="{% static 'sellysafeweb/js/materialize.js' %}"></script>
+    >
+    <!-- Import own styles -->
+    <link type="text/css" rel="stylesheet" href="{% static 'sellysafeweb/css/style.css' %}">
 
-      <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
-  />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!--JS Files-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'sellysafeweb/js/materialize.js' %}"></script>
 
-    </head>
-    <body>
-        {% block content %}
+    <!-- Animate CSS ref -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+    />
+
+    {% block head_scripts %}
+    {% endblock %}
+
+</head>
+<body>
+{% block content %}
 {% endblock %}
-    </body>
+</body>
 </html>

@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 from django.conf.global_settings import DATETIME_INPUT_FORMATS
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.utils.timezone import make_aware
 
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sellysafeweb.apps.SellysafewebConfig',
+    'material',
 ]
 
 MIDDLEWARE = [
