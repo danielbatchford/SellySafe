@@ -15,6 +15,8 @@ import os
 from django.conf.global_settings import DATETIME_INPUT_FORMATS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.utils.timezone import make_aware
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -29,6 +31,8 @@ CITY_CENTER = [-1.930965, 52.442965]
 BOUNDS = [[-1.955059, 52.428762], [-1.912666, 52.454658]]
 
 DATETIME_INPUT_FORMATS = ['%Y-%m-%dT%H:%M']
+
+SHOW_DURATION = 2
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -118,7 +122,7 @@ USE_I18N = True
 # Disabled for now
 USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
