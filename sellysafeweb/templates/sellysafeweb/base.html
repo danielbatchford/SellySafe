@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load static %}
     <meta charset="UTF-8">
+    <meta property="og:image" content="{% static 'sellysafeweb/media/mapimg.jpg' %}"/>
     <title>SellySafe - {% block title %}{% endblock %}</title>
-    {% load static %}
+
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -15,8 +17,15 @@
             href="{% static 'sellysafeweb/css/materialize.css' %}"
             media="screen,projection"
     >
+
+  <!-- Animate CSS ref -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+    />
+
     <!-- Import own styles -->
-    <link type="text/css" rel="stylesheet" href="{% static 'sellysafeweb/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sellysafeweb/css/style.css' %}">
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,12 +34,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script type="text/javascript" src="{% static 'sellysafeweb/js/materialize.js' %}"></script>
 
-    <!-- Animate CSS ref -->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
-    />
 
+
+    <!--Favicon-->
+    <link rel="icon" href={% static 'sellysafeweb/media/favicon.ico' %}>
     {% block head_scripts %}
     {% endblock %}
 

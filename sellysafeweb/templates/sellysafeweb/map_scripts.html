@@ -104,17 +104,5 @@
         });
     }
 
-    function buttonState() {
-        $("input").each(function () {
-            $('#submit_button').attr('disabled', 'disabled');
-            if ($(this).val() == "") return false;
-            $('#submit_button').attr('disabled', '');
-        })
-    }
-
-    $(function () {
-        $('#submit_button').attr('disabled', 'disabled');
-        $('input').change(buttonState);
-    })
 
 </script>

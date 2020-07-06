@@ -26,6 +26,9 @@ SECRET_KEY = 'ejpmij&_nr2(*zv^o!!r=uk_&5i5_kv=#w90ue$b7^c&&kg%s-'
 
 MAPBOX_KEY = 'pk.eyJ1IjoiZGFuaWVsYmF0Y2hmb3JkIiwiYSI6ImNrYzZoNmNkZjByaWwydnJpdjB4OHc2bW0ifQ.NL5rP5elBSBPMA0bE9x4fQ'
 
+RECAPTCHA_PUBLIC_KEY = '6Lf3Vq4ZAAAAAEytrJcyRA6mB_vAAJdppzyKzfKr'
+RECAPTCHA_PRIVATE_KEY = '6Lf3Vq4ZAAAAAAszsAmsgfypzRal2NE10ypNL-Tz'
+
 CITY_CENTER = [-1.930965, 52.442965]
 BOUNDS = [[-1.955059, 52.428762], [-1.912666, 52.454658]]
 
@@ -36,7 +39,7 @@ SHOW_DURATION = 2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.pythonanywhere.com', 'sellysafe.com', '127.0.0.1']
 
 # Application definition
 
@@ -49,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sellysafeweb.apps.SellysafewebConfig',
     'material',
+    'captcha',
 ]
 
 MIDDLEWARE = [

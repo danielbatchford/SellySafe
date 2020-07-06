@@ -1,6 +1,7 @@
+from captcha.widgets import ReCaptchaV2Checkbox, ReCaptchaV3
 from django import forms
 from django.core.exceptions import ValidationError
-
+from captcha.fields import ReCaptchaField
 from SellySafe import settings
 from .models import Report
 
@@ -23,10 +24,12 @@ class ReportForm(forms.Form):
                (3, '3 hours ago'),
                (4, '4 hours ago')]
     datetime = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect, label="When did this happen?",
-                                 required=True)
+                                 required=True, initial = 0)
     lat = forms.FloatField(widget=forms.HiddenInput)
     long = forms.FloatField(widget=forms.HiddenInput)
     contents = forms.CharField(widget=forms.TextInput, label="Please describe what happened", required=True)
+    captcha = ReCaptchaField(widget = ReCaptchaV3)
+
 
     def clean(self):
         cd = self.cleaned_data
