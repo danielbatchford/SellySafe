@@ -1,8 +1,13 @@
 <br>
 <div class="row">
-    <div class="left-align card col s2 animate__animated animate__slideInLeft" id="floating_logo">
-        <span> <h6 class="flow-text deep-orange-text">SellySafe</h6></span>
-
-        <p>Showing reports from the last {{ duration }} days.</p>
+    {% load static %}
+    <div class="left-align card col s4 m3 l2 xl2 animate__animated animate__slideInLeft" id="floating_logo">
+        <div class="card-content">
+            <div class="center">
+                <span> <img alt="logoOrange" src="{% static 'sellysafeweb/media/longlogoorangetrn.png' %}" width="100px"
+                            height="auto"></span>
+            </div>
+            <p>Showing reports from the last {{ duration }} days.</p>
+        </div>
     </div>
 </div>

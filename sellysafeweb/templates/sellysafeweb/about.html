@@ -5,7 +5,7 @@
     {% load static %}
 
     <!--Init SideNav for mobile-->
-      <script>
+    <script>
         $(document).ready(function () {
             $('.parallax').parallax();
             $('.sidenav').sidenav();
@@ -17,30 +17,33 @@
 
     <nav class="grey darken-4" role="navigation">
         <div class="nav-wrapper">
+            <a href="/" class="brand-logo center">
+                <img alt="logo" src="{% static 'sellysafeweb/media/logolongtrn.png' %}" width='auto' height="50px"
+                     style="vertical-align: middle">
+            </a>
 
-                <a id="logo-container" class="brand-logo center"
-                   href="">SellySafe</a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a class="waves-effect" href="https://www.google.com" target="blank">Donate</a></li>
-                    <li><a class="waves-effect" href="https://github.com/danielbatchford/sellysafe" target="blank">Source
-                        Code</a></li>
-                </ul>
+            <ul class="right hide-on-med-and-down">
+                <li><a class="waves-effect" href="https://www.google.com" target="blank">Donate</a></li>
+                <li><a class="waves-effect" href="https://github.com/danielbatchford/sellysafe" target="blank">Source
+                    Code</a></li>
+            </ul>
 
 
-                <ul id="nav-mobile" class="sidenav grey darken-4">
-                    <li><a class="waves-effect white-text" href="https://www.google.com" target="blank">Donate</a></li>
-                    <li><a class="waves-effect white-text" href="https://github.com/danielbatchford/sellysafe"
-                           target="blank">Source Code</a></li>
-                </ul>
-                <a href="#" data-target="nav-mobile" class="sidenav-trigger waves-effect">
-                    <i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="sidenav grey darken-4">
+                <li><a class="waves-effect white-text" href="https://www.google.com" target="blank">Donate</a></li>
+                <li><a class="waves-effect white-text" href="https://github.com/danielbatchford/sellysafe"
+                       target="blank">Source Code</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger waves-effect">
+                <i class="material-icons">menu</i></a>
 
         </div>
     </nav>
 
     <div class="container">
         <h2 class="header">About</h2>
-        <p class="flow-text">What it is</p>
+        <p class="flow-text">Mention brumfess fab reports improvement, click on the map to add a report. Instantly see
+            reports in last x days</p>
     </div>
 
     <div class="parallax-container center valign-wrapper">
@@ -59,7 +62,7 @@
 
     <div class="container">
         <h2 class="header">Why</h2>
-        <p class="flow-text">Why it's made</p>
+        <p class="flow-text">Lockdown Project. Keep people safe, see where the best places in selly are</p>
         <h2 class="header">Creator</h2>
         <p class="flow-text">About me (lockdown, about me in cs, statement about "please dont abuse")</p>
 
