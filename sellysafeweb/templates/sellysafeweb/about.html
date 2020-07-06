@@ -4,13 +4,16 @@
     <!--Loading static content-->
     {% load static %}
 
-    <!--Init SideNav for mobile-->
+    <!--Init SideNav for mobile and tooltips-->
     <script>
         $(document).ready(function () {
             $('.parallax').parallax();
             $('.sidenav').sidenav();
+            $('.tooltipped').tooltip();
+
         });
     </script>
+
 {% endblock %}
 
 {% block content %}
@@ -23,20 +26,18 @@
             </a>
 
             <ul class="right hide-on-med-and-down">
-                <li><a class="waves-effect" href="https://www.google.com" target="blank">Donate</a></li>
-                <li><a class="waves-effect" href="https://github.com/danielbatchford/sellysafe" target="blank">Source
-                    Code</a></li>
+                <li><a class="waves-effect tooltipped" data-position="bottom"
+                       data-tooltip="Help me keep the paid servers running!"
+                       href="https://buymeacoff.ee/danielbatchford" target="blank">Donate</a></li>
             </ul>
 
 
             <ul id="nav-mobile" class="sidenav grey darken-4">
                 <li><a class="waves-effect white-text" href="https://www.google.com" target="blank">Donate</a></li>
-                <li><a class="waves-effect white-text" href="https://github.com/danielbatchford/sellysafe"
-                       target="blank">Source Code</a></li>
+
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger waves-effect">
                 <i class="material-icons">menu</i></a>
-
         </div>
     </nav>
 
@@ -47,7 +48,7 @@
             and let others know where and when it happened, allowing them to take necessary precautions
             with regards to the incident. This site gives you an interactive map, letting you see
             recent incidents near you.</p>
-    <img  alt = "anim" src = "{% static 'sellysafeweb/media/anim.gif' %}" width = "100%" height = "auto">
+        <img alt="anim" src="{% static 'sellysafeweb/media/anim.gif' %}" width="100%" height="auto">
     </div>
 
     <div class="parallax-container center valign-wrapper">
@@ -67,21 +68,26 @@
     <div class="container">
         <h3 class="header">Why</h3>
         <p class="flow-text">This was created as a lockdown project to help people stay safe in and around Selly Oak.
-        I aim to help improve safety for students living in post first year accommodation. Furthermore, I aim to give
-        first year students an indication of the safer areas to live in 2nd year, as well as where to avoid when going out.
+            I aim to help improve safety for students living in post first year accommodation. Furthermore, I aim to
+            give
+            first year students an indication of the safer areas to live in 2nd year, as well as where to avoid when
+            going out.
         </p>
-        <h3 class = "header">Disclaimer</h3>
-        <p class = "flow-text">While I hope this map helps with people during their time in Selly Oak, this is not intended
-            to be a replacement for the <a class = "deep-orange-text" href = "https://www.police.uk/pu/your-area/west-midlands-police/selly-oak/?tab=CrimeMap"
-                                           target = "blank">
-                Official Police Crime Map</a> for Selly Oak, which contains recent reported incidents and the police investigation
-        status for each incident.</p>
+        <h3 class="header">Disclaimer</h3>
+        <p class="flow-text">While I hope this map helps people during their time in Selly Oak, this is not intended
+            to be a replacement for the <a class="deep-orange-text"
+                                           href="https://www.police.uk/pu/your-area/west-midlands-police/selly-oak/?tab=CrimeMap"
+                                           target="blank">
+                Official Police Crime Map</a> for Selly Oak, which contains recent reported incidents and the police
+            investigation
+            status for each incident.</p>
     </div>
 
     <footer class="page-footer grey darken-4">
         <footer class="footer-copyright">
             <div class="container center">
-                <a href="https://github.com/danielbatchford" class="white-text" target="blank">Created by Daniel Batchford -
+                <a href="https://github.com/danielbatchford" class="white-text" target="blank">Created by Daniel
+                    Batchford -
                     2020</a>
             </div>
         </footer>

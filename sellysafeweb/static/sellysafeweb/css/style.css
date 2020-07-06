@@ -28,4 +28,6 @@ body {
 
 }
 
-.grecaptcha-badge { visibility: hidden; }
+.grecaptcha-badge {
+    visibility: hidden;
+}

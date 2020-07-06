@@ -1,5 +1,5 @@
 recaptcha
-python anywhere
+digitalocean
 custom domain
 mapbox
 django
