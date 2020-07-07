@@ -6,5 +6,5 @@ app_name = 'sellysafeweb'
 
 urlpatterns = [
     url(r'about', views.about, name='about'),
-    url(r'', views.map, name='map'),
+    url(r'map', views.map, name='map'),
 ]
