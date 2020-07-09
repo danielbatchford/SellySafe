@@ -33,8 +33,6 @@ DATETIME_INPUT_FORMATS = ['%Y-%m-%dT%H:%M']
 
 SHOW_DURATION = 2
 
-SESSION_COOKIE_SECURE = True
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
