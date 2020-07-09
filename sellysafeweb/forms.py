@@ -1,8 +1,5 @@
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV3
 from django import forms
 from django.core.exceptions import ValidationError
-
 from SellySafe import settings
 from .models import Report
 
@@ -29,7 +26,6 @@ class ReportForm(forms.Form):
     lat = forms.FloatField(widget=forms.HiddenInput)
     long = forms.FloatField(widget=forms.HiddenInput)
     contents = forms.CharField(widget=forms.TextInput, label="Please describe what happened", required=True)
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def clean(self):
         cd = self.cleaned_data
