@@ -34,7 +34,7 @@ DATETIME_INPUT_FORMATS = ['%Y-%m-%dT%H:%M']
 SHOW_DURATION = 2
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['.pythonanywhere.com', 'sellysafe.com', '127.0.0.1']
 
