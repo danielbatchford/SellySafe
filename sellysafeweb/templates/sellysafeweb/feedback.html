@@ -1,0 +1,30 @@
+{% extends 'sellysafeweb/base.html' %}
+{% block title %}Feedback{% endblock %}
+{% block head_scripts %}{% endblock %}
+
+{% block content %}
+    {% include 'sellysafeweb/navbar.html' %}
+
+    <div class="container">
+        <div class="card">
+
+            <form action={% url 'sellysafeweb:feedback' %} method="POST" class="from-group">
+
+                <div class="card-content">
+                    <div class="card-title">
+                        <h4>Submit Feedback</h4>
+                    </div>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button
+                            id="feedback_button"
+                            type="submit"
+                            class="btn-flat deep-orange-text"
+                    >Send Feedback
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

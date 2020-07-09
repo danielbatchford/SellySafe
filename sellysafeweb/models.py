@@ -9,3 +9,8 @@ class Report(models.Model):
     lat = models.FloatField()
     long = models.FloatField()
     datetime = models.DateTimeField(default=timezone.now)
+
+
+class Feedback(models.Model):
+    contents = models.TextField(max_length=1000, default="")
+    email = models.CharField(max_length=50)

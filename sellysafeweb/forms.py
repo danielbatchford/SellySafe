@@ -1,7 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
+
 from SellySafe import settings
-from .models import Report
+from .models import Report, Feedback
 
 
 class DateTimeInput(forms.DateInput):
@@ -41,3 +42,12 @@ class ReportForm(forms.Form):
     class Meta:
         model = Report
         fields = ("contents", "lat", "long", "datetime")
+
+
+class FeedbackForm(forms.ModelForm):
+    contents = forms.CharField(required=True, label="Please enter your feedback below")
+    email = forms.CharField(required=False, label="Email (Optional), to allow us to get in touch")
+
+    class Meta:
+        model = Feedback
+        fields = ("contents", "email")

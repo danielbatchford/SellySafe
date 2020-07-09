@@ -3,13 +3,15 @@ import datetime as dt
 from django.shortcuts import render, redirect
 
 from SellySafe import settings
-from sellysafeweb.forms import ReportForm
+from sellysafeweb.forms import ReportForm, FeedbackForm
 from sellysafeweb.models import Report
 
 
-def map(request):
-    show_modal = True
+def redirect_to_map(request):
+    return redirect('sellysafeweb:map')
 
+
+def map(request):
     form = ReportForm(request.POST or None)
 
     if request.method == 'POST':
@@ -42,3 +44,16 @@ def map(request):
 
 def about(request):
     return render(request, 'sellysafeweb/about.html')
+
+
+def feedback(request):
+    form = FeedbackForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('sellysafeweb:feedback_confirmation')
+    return render(request, 'sellysafeweb/feedback.html', {'form': form})
+
+
+def feedback_confirmation(request):
+    return render(request, 'sellysafeweb/feedback_confirmation.html')

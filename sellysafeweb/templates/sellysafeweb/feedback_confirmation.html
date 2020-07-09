@@ -1,0 +1,11 @@
+{% extends 'sellysafeweb/base.html' %}
+{% block title %}Thanks!{% endblock %}
+{% block head_scripts %}{% endblock %}
+{% block content %}
+    {% include 'sellysafeweb/navbar.html' %}
+    <br>
+    <div class="container center">
+        <h2>Thanks!</h2>
+        <a class="btn-large deep-orange waves-effect" href="{% url 'sellysafeweb:map' %}">Return to the map</a>
+    </div>
+{% endblock %}
