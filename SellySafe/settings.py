@@ -26,14 +26,19 @@ SECRET_KEY = 'ejpmij&_nr2(*zv^o!!r=uk_&5i5_kv=#w90ue$b7^c&&kg%s-'
 
 MAPBOX_KEY = 'pk.eyJ1IjoiZGFuaWVsYmF0Y2hmb3JkIiwiYSI6ImNrYzZoNmNkZjByaWwydnJpdjB4OHc2bW0ifQ.NL5rP5elBSBPMA0bE9x4fQ'
 
+# (Longitude, Latitude) pairs defining the center of the map and corners -  [[SouthWest],[NorthEast]]
 CITY_CENTER = [-1.930965, 52.442965]
 BOUNDS = [[-1.955059, 52.428762], [-1.912666, 52.454658]]
 
+# Custom UK input format for Django to use
 DATETIME_INPUT_FORMATS = ['%Y-%m-%dT%H:%M']
 
+# Day filter to only show reports from N days ago
 SHOW_DURATION = 2
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# British Summer Time hour offset from UTC
+BST_OFFSET = 1
+
 DEBUG = False
 
 ALLOWED_HOSTS = ['.pythonanywhere.com', 'sellysafe.com', '127.0.0.1']
@@ -48,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sellysafeweb.apps.SellysafewebConfig',
+
+    # To allow materializeCSS forms compatibility with Django Forms
     'material',
 ]
 
@@ -82,9 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SellySafe.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -92,21 +96,14 @@ DATABASES = {
     }
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-# Disabled for now
 USE_L10N = False
 
 USE_TZ = False
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
