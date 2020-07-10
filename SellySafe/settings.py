@@ -22,9 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ejpmij&_nr2(*zv^o!!r=uk_&5i5_kv=#w90ue$b7^c&&kg%s-'
-
-MAPBOX_KEY = 'pk.eyJ1IjoiZGFuaWVsYmF0Y2hmb3JkIiwiYSI6ImNrYzZoNmNkZjByaWwydnJpdjB4OHc2bW0ifQ.NL5rP5elBSBPMA0bE9x4fQ'
+# KEYS OMMITED WHILE PROJECT IS ON GITHUB
 
 # (Longitude, Latitude) pairs defining the center of the map and corners -  [[SouthWest],[NorthEast]]
 CITY_CENTER = [-1.930965, 52.442965]
