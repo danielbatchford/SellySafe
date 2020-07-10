@@ -1,6 +1,3 @@
-html css js python
-
-
 # SellySafe
 The website is hosted [here](http://danielbatchford1.pythonanywhere.com/about).
 ## About
