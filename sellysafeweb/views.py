@@ -43,8 +43,8 @@ def map(request):
             report.save()
             return redirect('sellysafeweb:map')
 
-    # Filter the reports by n days ago
-    cutoff_date = dt.date.today() - dt.timedelta(days=settings.SHOW_DURATION)
+    # Filter the reports by n days ago. +1 needed as date duration is inclusive.
+    cutoff_date = dt.date.today() - dt.timedelta(days=settings.SHOW_DURATION + 1)
     reports = Report.objects.filter(datetime__gte=cutoff_date)
 
     # Render the HTML file with the following parameters
